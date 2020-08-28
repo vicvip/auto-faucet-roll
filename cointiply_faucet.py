@@ -14,7 +14,7 @@ from PIL import ImageOps
 
 chrome_options = Options()
 chrome_options.add_extension(r'C:\Users\Vic\AppData\Local\Google\Chrome\User Data\Default\Extensions\ChromeAudioCapture\cac.crx')
-driver = webdriver.Chrome()
+driver = webdriver.Chrome(options=chrome_options)
 driver.get("https://cointiply.com/home?intent=faucet")
 
 #login....
@@ -79,7 +79,7 @@ def auto_roll():
     random_sec = random.randint(3650,4000)
     time.sleep(random_sec)
     nw = datetime.now()
-    if nw.hour == 5:
+    if nw.hour <= 5:
         print(f'Skipping Roll since time is at {nw}')
     else:
         print(f'Rolling Cointiply! at {nw}')
