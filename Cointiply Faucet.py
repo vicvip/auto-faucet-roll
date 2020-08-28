@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 import time
 from PIL import Image
@@ -11,6 +12,8 @@ import time
 from datetime import datetime
 from PIL import ImageOps
 
+chrome_options = Options()
+chrome_options.add_extension(r'C:\Users\Vic\AppData\Local\Google\Chrome\User Data\Default\Extensions\ChromeAudioCapture\cac.crx')
 driver = webdriver.Chrome()
 driver.get("https://cointiply.com/home?intent=faucet")
 
@@ -21,7 +24,6 @@ time.sleep(3)
 
 driver.find_element_by_xpath('//*[@id="app"]/div[4]/div/div/div[2]/div[1]/div[1]/div[1]/div/div[1]/div/button').click()
 time.sleep(3)
-
 
 def cointiply_faucet(i=0):
     if i == 0:
