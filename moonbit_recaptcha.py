@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 import time
-from PIL import Image
+from PIL import Image, ImageEnhance, ImageOps
 from io import BytesIO
 import uuid
 import re
@@ -13,21 +13,49 @@ from datetime import datetime
 from PIL import ImageOps
 import pyperclip
 import os
-
 import speech_recognition as sr
-r = sr.Recognizer()
+
 
 chrome_options = Options()
 chrome_options.add_extension(r'D:\Crypto Related\auto-faucet-roll\chromeaudiocapture.crx')
 chrome_options.add_extension(r'D:\Crypto Related\auto-faucet-roll\ublock.crx')
 
+#Navigate to Moonbit manually, change Chrome Record Audio Ext to save in .WAV format
 driver = webdriver.Chrome(options=chrome_options)
 
-os.system(r'C:\"Program Files (x86)\MacroRecorder\MacroRecorder.exe" -play="D:\Crypto Related\auto-faucet-roll\claim-captcha-audio.mrf"')
 
-#Navigate to Moonbit manually, change Chrome Record Audio Ext to save in .WAV format
+
+def repeat_madness():
+    print('madness start')
+    os.system(r'C:\"Program Files (x86)\MacroRecorder\MacroRecorder.exe" -play="D:\Crypto Related\auto-faucet-roll\play-and-save-recording2-attempt2.mrf"')
+    time.sleep(22)
+    a()
+    os.system(r'C:\"Program Files (x86)\MacroRecorder\MacroRecorder.exe" -play="D:\Crypto Related\auto-faucet-roll\paste-and-verify-attempt2.mrf"')
+    time.sleep(6)
+    return b()
+
+
+def roll():
+    os.system(r'C:\"Program Files (x86)\MacroRecorder\MacroRecorder.exe" -play="D:\Crypto Related\auto-faucet-roll\claim-captcha-audio2.mrf"')
+    time.sleep(8)
+    os.system(r'C:\"Program Files (x86)\MacroRecorder\MacroRecorder.exe" -play="D:\Crypto Related\auto-faucet-roll\play-and-save-recording2.mrf"')
+    time.sleep(29)
+    print('to audio done')
+    a()
+    os.system(r'C:\"Program Files (x86)\MacroRecorder\MacroRecorder.exe" -play="D:\Crypto Related\auto-faucet-roll\paste-and-verify.mrf"')
+    time.sleep(6)
+    print('pasting values')
+    should_repeat = repeat_madness()
+    if should_repeat:
+        repeat_madness()
+    else:
+        os.system(r'C:\"Program Files (x86)\MacroRecorder\MacroRecorder.exe" -play="D:\Crypto Related\auto-faucet-roll\claim-and-close.mrf"')
+
+
+
 
 def read_recording():
+    r = sr.Recognizer()
     with sr.AudioFile(r'D:\Crypto Related\placeholder\test.wav') as source:
         audio_text = r.listen(source)
         try:
@@ -37,6 +65,47 @@ def read_recording():
             pyperclip.copy(text)
         except:
             print('Sorry.. run again...')
+
+def detect_multiple_req():
+    png = driver.find_element_by_xpath('/html/body').screenshot_as_png
+    border = (650, 0, 1000, 800)
+    im = Image.open(BytesIO(png)).convert('LA')
+    im = ImageOps.crop(im, border)
+    contrast = ImageEnhance.Contrast(im)
+    contrast.enhance(2).save(r'D:\Crypto Related\placeholder\examine.png')
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
+    examine = pytesseract.image_to_string(r'D:\Crypto Related\placeholder\examine.png')
+    should_repeat = 'Multiple correct solutions required' in examine
+    return should_repeat
+
+contrast = ImageEnhance.Contrast(im)
+contrast.enhance(2).save(r'D:\Crypto Related\placeholder\examine.png')
+
+
+def a():
+    r = sr.Recognizer()
+    with sr.AudioFile(r'D:\Crypto Related\placeholder\test.wav') as source:
+        audio_text = r.listen(source)
+        try:
+            text = r.recognize_google(audio_text)
+            print('Converting audio transcripts into text ...')
+            print(text)
+            pyperclip.copy(text)
+        except:
+            print('Sorry.. run again...')
+
+
+def b():
+    png = driver.find_element_by_xpath('/html/body').screenshot_as_png
+    border = (650, 0, 1000, 800)
+    im = Image.open(BytesIO(png)).convert('LA')
+    im = ImageOps.crop(im, border)
+    contrast = ImageEnhance.Contrast(im)
+    contrast.enhance(2).save(r'D:\Crypto Related\placeholder\examine.png')
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
+    examine = pytesseract.image_to_string(r'D:\Crypto Related\placeholder\examine.png')
+    should_repeat = 'tiple correct' in examine
+    return should_repeat
 
 
 
