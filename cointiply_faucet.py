@@ -13,7 +13,7 @@ from datetime import datetime
 from PIL import ImageOps
 
 chrome_options = Options()
-chrome_options.add_extension(r'C:\Users\Vic\AppData\Local\Google\Chrome\User Data\Default\Extensions\ChromeAudioCapture\cac.crx')
+chrome_options.add_extension(r'D:\Crypto Related\auto-faucet-roll\chromeaudiocapture.crx')
 driver = webdriver.Chrome(options=chrome_options)
 driver.get("https://cointiply.com/home?intent=faucet")
 
@@ -56,6 +56,7 @@ def cointiply_faucet(i=0):
         try:
             input = driver.find_element_by_xpath('//*[@id="app"]/div[4]/div/div/div[2]/div[1]/div[1]/div[1]/div/div/div/div[3]/div[2]/div[2]/input')
             input.send_keys(captcha.strip())
+            time.sleep(1)
             driver.find_element_by_xpath('//*[@id="app"]/div[4]/div/div/div[2]/div[1]/div[1]/div[1]/div/div/div/button').click()
         except:
             print(f'Cant find the input box! Skipping "{captcha.strip()}" for {guid}. Lets try again...')
