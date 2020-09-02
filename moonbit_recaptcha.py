@@ -14,6 +14,7 @@ from PIL import ImageOps
 import pyperclip
 import os
 import speech_recognition as sr
+import subprocess
 
 
 chrome_options = Options()
@@ -24,6 +25,33 @@ chrome_options.add_extension(r'D:\Crypto Related\auto-faucet-roll\ublock.crx')
 driver = webdriver.Chrome(options=chrome_options)
 
 
+def a():
+    r = sr.Recognizer()
+    with sr.AudioFile(r'D:\Crypto Related\placeholder\test.wav') as source:
+        audio_text = r.listen(source)
+        try:
+            text = r.recognize_google(audio_text)
+            print('Converting audio transcripts into text ...')
+            print(text)
+            pyperclip.copy(text)
+        except:
+            print('Sorry.. run again...')
+
+
+def b():
+    png = driver.find_element_by_xpath('/html/body').screenshot_as_png
+    border = (650, 0, 1000, 800)
+    im = Image.open(BytesIO(png)).convert('LA')
+    im = ImageOps.crop(im, border)
+    contrast = ImageEnhance.Contrast(im)
+    contrast.enhance(2).save(r'D:\Crypto Related\placeholder\examine.png')
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
+    examine = pytesseract.image_to_string(r'D:\Crypto Related\placeholder\examine.png')
+    should_repeat = 'tiple correct' in examine
+    return should_repeat
+
+
+
 
 def repeat_madness():
     print('madness start')
@@ -32,7 +60,14 @@ def repeat_madness():
     a()
     os.system(r'C:\"Program Files (x86)\MacroRecorder\MacroRecorder.exe" -play="D:\Crypto Related\auto-faucet-roll\paste-and-verify-attempt2.mrf"')
     time.sleep(6)
-    return b()
+    repeat = b()
+    if repeat:
+        repeat_madness()
+        return
+    else:
+        os.system(r'C:\"Program Files (x86)\MacroRecorder\MacroRecorder.exe" -play="D:\Crypto Related\auto-faucet-roll\claim-and-close.mrf"')
+        time.sleep(10)
+        os.system(r'C:\"Program Files (x86)\MacroRecorder\MacroRecorder.exe" -play="D:\Crypto Related\auto-faucet-roll\close-remaining-tab.mrf"')
 
 
 def roll():
@@ -48,8 +83,12 @@ def roll():
     should_repeat = repeat_madness()
     if should_repeat:
         repeat_madness()
+        return
     else:
         os.system(r'C:\"Program Files (x86)\MacroRecorder\MacroRecorder.exe" -play="D:\Crypto Related\auto-faucet-roll\claim-and-close.mrf"')
+        time.sleep(10)
+        os.system(r'C:\"Program Files (x86)\MacroRecorder\MacroRecorder.exe" -play="D:\Crypto Related\auto-faucet-roll\close-remaining-tab.mrf"')
+
 
 
 
@@ -93,6 +132,7 @@ def a():
             pyperclip.copy(text)
         except:
             print('Sorry.. run again...')
+            pyperclip.copy('not sure what this is')
 
 
 def b():
@@ -104,10 +144,50 @@ def b():
     contrast.enhance(2).save(r'D:\Crypto Related\placeholder\examine.png')
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
     examine = pytesseract.image_to_string(r'D:\Crypto Related\placeholder\examine.png')
-    should_repeat = 'tiple correct' in examine
+    should_repeat = 'tiple correct' in examine or 'correct' in examine
     return should_repeat
 
 
+def roll2():
+    driver.switch_to.window(driver.window_handles[-1])
+    subprocess.call([r'C:\Program Files\AutoHotkey\AutoHotkey.exe', r'D:\Crypto Related\auto-faucet-roll\claim-to-audio.ahk'])
+    time.sleep(5)
+    subprocess.call([r'C:\Program Files\AutoHotkey\AutoHotkey.exe', r'D:\Crypto Related\auto-faucet-roll\play-and-save-audio-init.ahk'])
+    time.sleep(17)
+    print('to audio done')
+    a()
+    subprocess.call([r'C:\Program Files\AutoHotkey\AutoHotkey.exe', r'D:\Crypto Related\auto-faucet-roll\paste-and-verify-init.ahk'])
+    time.sleep(6)
+    print('pasting values')
+    should_repeat = repeat_madness2()
+    if should_repeat:
+        repeat_madness2()
+        return
+    else:
+        subprocess.call([r'C:\Program Files\AutoHotkey\AutoHotkey.exe', r'D:\Crypto Related\auto-faucet-roll\claim-and-close.ahk'])
+        time.sleep(10)
+
+
+def repeat_madness2():
+    print('madness start')
+    subprocess.call([r'C:\Program Files\AutoHotkey\AutoHotkey.exe', r'D:\Crypto Related\auto-faucet-roll\play-and-save-audio-rpt.ahk'])
+    time.sleep(17)
+    a()
+    subprocess.call([r'C:\Program Files\AutoHotkey\AutoHotkey.exe', r'D:\Crypto Related\auto-faucet-roll\paste-and-verify-rpt.ahk'])
+    time.sleep(6)
+    repeat = b()
+    if repeat:
+        repeat_madness2()
+        return
+    else:
+        subprocess.call([r'C:\Program Files\AutoHotkey\AutoHotkey.exe', r'D:\Crypto Related\auto-faucet-roll\claim-and-close.ahk'])
+        time.sleep(10)
+        return
+
+
+
+
+print(a)
 
 play_rec = driver.find_element_by_xpath('/html/body/div/div/div[3]/div/button')
 /html/body/div[1]/div[1]/div[3]/div[2]/div/input
