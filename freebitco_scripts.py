@@ -2,11 +2,10 @@ import win32com.client as comclt
 import random
 import time
 from datetime import datetime
+import subprocess
 
 def run_firefox_console():
-    wsh = comclt.Dispatch("WScript.Shell")
-    wsh.AppActivate('Developer Tools')
-    wsh.SendKeys('{UP}{ENTER}')
+    subprocess.call([r'C:\Program Files\AutoHotkey\AutoHotkey.exe', r'D:\Crypto Related\auto-faucet-roll\freebitco-activate-roll.ahk'])
 
 def auto_roll():
     random_sec = random.randint(3650,4000)

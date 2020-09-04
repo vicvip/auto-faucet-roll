@@ -81,9 +81,11 @@ def auto_roll():
     time.sleep(random_sec)
     nw = datetime.now()
     if nw.hour <= 5:
+        driver.refresh()
         print(f'Skipping Roll since time is at {nw}')
     else:
         print(f'Rolling Cointiply! at {nw}')
         cointiply_faucet(0)
+    driver.minimize_window()
     auto_roll()
     
