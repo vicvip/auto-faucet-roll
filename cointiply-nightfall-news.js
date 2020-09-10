@@ -39,3 +39,10 @@ $(document).ready(function() { //When document has loaded
 
 }); 
 
+
+// var i = 0;
+// var timer = setInterval(function() {
+//   console.log(++i);
+//   if (i === 50) clearInterval(timer);
+//   document.querySelector("#StakeButtons > div > button:nth-child(2)").click();
+// }, 30 * 1000);
