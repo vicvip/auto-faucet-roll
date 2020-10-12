@@ -169,7 +169,7 @@ Sleep, 422
 Click, 1246, 546 Left, Down
 Sleep, 110
 Click, 1246, 546 Left, Up
-Sleep, 2500
+Sleep, 10000
 Click, 1246, 547, 0
 Sleep, 31
 Click, 1245, 549, 0

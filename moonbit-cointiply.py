@@ -93,7 +93,7 @@ def a():
 
 def b(driver):
     png = driver.find_element_by_xpath('/html/body').screenshot_as_png
-    border = (650, 0, 1000, 800)
+    border = (660, 20, 1010, 810)
     im = Image.open(BytesIO(png)).convert('LA')
     im = ImageOps.crop(im, border)
     contrast = ImageEnhance.Contrast(im)
@@ -109,8 +109,8 @@ def moon_roll(driver):
     subprocess.call([r'C:\Program Files\AutoHotkey\AutoHotkey.exe', r'D:\Crypto Related\auto-faucet-roll\claim-to-audio.ahk'])
     time.sleep(5)
     driver.switch_to.window(driver.window_handles[-1])
-    subprocess.call([r'C:\Program Files\AutoHotkey\AutoHotkey.exe', r'D:\Crypto Related\auto-faucet-roll\play-and-save-audio-init.ahk'])
-    time.sleep(15)
+    subprocess.call([r'C:\Program Files\AutoHotkey\AutoHotkey.exe', r'D:\Crypto Related\auto-faucet-roll\play-and-save-audio-initv2.ahk'])
+    time.sleep(10)
     print('to audio done')
     a()
     driver.switch_to.window(driver.window_handles[-1])
@@ -132,8 +132,8 @@ def moon_roll(driver):
 def repeat_madness(driver):
     print('madness start')
     driver.switch_to.window(driver.window_handles[-1])
-    subprocess.call([r'C:\Program Files\AutoHotkey\AutoHotkey.exe', r'D:\Crypto Related\auto-faucet-roll\play-and-save-audio-rpt.ahk'])
-    time.sleep(15)
+    subprocess.call([r'C:\Program Files\AutoHotkey\AutoHotkey.exe', r'D:\Crypto Related\auto-faucet-roll\play-and-save-audio-rptv2.ahk'])
+    time.sleep(10)
     a()
     driver.switch_to.window(driver.window_handles[-1])
     subprocess.call([r'C:\Program Files\AutoHotkey\AutoHotkey.exe', r'D:\Crypto Related\auto-faucet-roll\paste-and-verify-rpt.ahk'])
@@ -148,16 +148,16 @@ def repeat_madness(driver):
         time.sleep(10)
         print(f'Rewards claimed wth multiple recaptcha!')
         return
-
+        
 
 def auto_roll(i=0, j=0, driver_c=driver_c, driver_m_1=driver_m_1):
-    random_sec = random.randint(1000,1100)
+    random_sec = random.randint(1100,1200)
     time.sleep(random_sec)
     nw = datetime.now()
     if j >= 3 and nw.hour >= 3:
         print(f'Rolling Cointiply! at {nw}')
         driver_c.refresh()
-        time.sleep(3)
+        time.sleep(10)
         driver_c.maximize_window()
         cointiply_faucet(0)
         driver_c.minimize_window()
@@ -167,17 +167,20 @@ def auto_roll(i=0, j=0, driver_c=driver_c, driver_m_1=driver_m_1):
         driver_m_1.refresh()
         time.sleep(5)
         i = 0
-    if nw.hour == 25:
-        print(f'Skipping Roll since time is at {nw}')
-    else:
-        driver_m_1.maximize_window()
+    if nw.hour >= 3:
         print(f'Rolling Moon BTC at {nw}')
         moon_roll(driver_m_1)
         i = i + 1
         j = j + 1
         print(f'i is {i}')
         print(f'j is {j}')
+        
+    else:
+        print(f'Skipping Roll since time is at {nw}')
+        driver_m_1.refresh()
+        driver_c.refresh()
     auto_roll(i=i, j=j, driver_c=driver_c, driver_m_1=driver_m_1)
+
 
 
 
@@ -195,3 +198,16 @@ def auto_roll2(i=0, driver_m_1=driver_m_1):
     auto_roll2(i=i, driver_m_1=driver_m_1)
 
 
+driver_c.refresh()
+time.sleep(10)
+driver_c.maximize_window()
+cointiply_faucet(0)
+driver_c.minimize_window()
+
+
+png = png1
+border = (660, 20, 1010, 810)
+im = Image.open(BytesIO(png)).convert('LA')
+im = ImageOps.crop(im, border)
+contrast = ImageEnhance.Contrast(im)
+contrast.enhance(2).save(r'D:\Crypto Related\placeholder\examine.png')
